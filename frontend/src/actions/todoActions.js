@@ -79,7 +79,6 @@ export const getTodos = () => async (dispatch , getState) => {
         const {data} = await axios.get(`/api/todos/${userInfo._id}`, config)
 
         if(data){
-            console.log(data)
             dispatch({
                 type: TODO_LIST_SUCCESS,
                 payload: data
@@ -97,8 +96,8 @@ export const getTodos = () => async (dispatch , getState) => {
     }
 }
 
-export const deleteTodo = (_id) => async (dispatch, getState) =>  {
 
+export const deleteTodo = (_id) => async (dispatch, getState) =>  {
     try {
         dispatch({
             type: TODO_DELETE_REQUEST

@@ -18,29 +18,31 @@ const TodoList = () => {
         if(todoUserId && todoDescription){
             await dispatch(addTodo({todoDescription, todoUserId}))
             setTodoDescription('')
+            dispatch(getTodos())   
         }
     }
-    const todoDeleteHandler =  (id) => {
-        console.log('Delete :', id)
-        dispatch(deleteTodo(id))
+    const todoDeleteHandler =  async (id) => {
+        await dispatch(deleteTodo(id))
+        dispatch(getTodos())   
     }
-    const allTodo = todoList ? 
-                    todoList.map((val,i)=>{
-                        return (
-                            <div className='row p-2' key={val._id}>
-                                <p className='col'>{val.todoDescription} </p>
-                                <div className='col-auto'>
-                                    <button className='btn btn-danger btn-sm' onClick={()=>todoDeleteHandler(val._id)}>Delete</button>
-                                </div>
-                            </div>
-                        )
-                    })
-                    : <center>No List to show</center>
 
 
     useEffect(()=>{
         dispatch(getTodos())     
     }, [ dispatch, addLoading, deleteLoading])
+
+    const allTodo = todoList ? 
+                    todoList.map((val,i)=>{
+                        return (
+                            <div className='row p-2' key={val._id}>
+                                <div className='col-auto'>
+                                    <button className='btn btn-danger btn-sm' onClick={()=>todoDeleteHandler(val._id)}>Delete</button>
+                                </div>
+                                <p className='col'>{val.todoDescription} </p>
+                            </div>
+                        )
+                    })
+                    : <center>No List to show</center>
 
 
     return (
